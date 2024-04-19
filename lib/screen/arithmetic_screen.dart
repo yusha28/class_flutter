@@ -1,3 +1,4 @@
+import 'package:batch32/model/arithmetic_model.dart';
 import 'package:flutter/material.dart';
 
 class ArithmeticScreen extends StatefulWidget {
@@ -8,6 +9,8 @@ class ArithmeticScreen extends StatefulWidget {
 }
 
 class _ArithmeticScreenState extends State<ArithmeticScreen> {
+  final mykey = GlobalKey<FormState>();
+  ArithmeticModel? arithmeticModel;
 // Delcare variables
   int? first;
   int? second;
@@ -25,74 +28,97 @@ class _ArithmeticScreenState extends State<ArithmeticScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            TextField(
-              onChanged: (value) {
-                first = int.parse(value);
-              },
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter First No',
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              onChanged: (value) {
-                second = int.parse(value);
-              },
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter Second No',
-              ),
-            ),
-            const SizedBox(height: 8),
-            // Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    result = first! + second!;
-                  });
+        child: Form(
+          key: mykey,
+          child: Column(
+            children: [
+              TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'enter the number';
+                  }
+                  return null;
                 },
-                child: const Text(
-                  'Add',
-                  style: TextStyle(
-                    fontSize: 25,
+                onChanged: (value) {
+                  first = int.parse(value);
+                },
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter First No',
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'enter the number';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  second = int.parse(value);
+                },
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter Second No',
+                ),
+              ),
+              const SizedBox(height: 8),
+              // Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (mykey.currentState!.validate()) {
+                      setState(() {
+                        arithmeticModel =
+                            ArithmeticModel(first: first!, second: second!);
+                        result = arithmeticModel!.add();
+                      });
+                    }
+                  },
+                  child: const Text(
+                    'Add',
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    result = first! - second!;
-                  });
-                },
-                child: const Text(
-                  'Subtract',
-                  style: TextStyle(
-                    fontSize: 25,
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (mykey.currentState!.validate()) {
+                      setState(() {
+                        arithmeticModel =
+                            ArithmeticModel(first: first!, second: second!);
+                        result = arithmeticModel!.sub();
+                      });
+                    }
+                  },
+                  child: const Text(
+                    'Subtract',
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 8),
+              const SizedBox(height: 8),
 
-            // Display informatuion
-            Text(
-              'The number is : $result',
-              style: const TextStyle(
-                fontSize: 30,
+              // Display informatuion
+              Text(
+                'The number is : $result',
+                style: const TextStyle(
+                  fontSize: 30,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
