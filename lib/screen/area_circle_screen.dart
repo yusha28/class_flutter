@@ -1,4 +1,3 @@
-
 import 'dart:ffi';
 
 import 'package:batch32/model/area_circle_model.dart';
@@ -16,7 +15,7 @@ class AreaCircle extends StatefulWidget {
 class _AreaCircleModelState extends State<AreaCircle> {
   final mykey = GlobalKey<FormState>();
   double result = 0;
-  double pi = (22/7);
+  double pi = (22 / 7);
   double? radius;
   AreaCircleModel? areaCircleModel;
 
@@ -37,10 +36,22 @@ class _AreaCircleModelState extends State<AreaCircle> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Enter Radius',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                  ),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Enter radius';
@@ -51,10 +62,7 @@ class _AreaCircleModelState extends State<AreaCircle> {
                   radius = double.parse(value);
                 },
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: 'Enter radius', border: OutlineInputBorder()),
               ),
-
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
@@ -78,6 +86,27 @@ class _AreaCircleModelState extends State<AreaCircle> {
               Text(
                 'Result: $result',
                 style: const TextStyle(fontSize: 20),
+              ),
+              RichText(
+                text: const TextSpan(
+                  text: 'Hello',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' bold',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber,
+                          backgroundColor: Colors.blue),
+                    ),
+                    TextSpan(
+                      text: ' world!',
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
